@@ -46,7 +46,7 @@ class TTSManger(object):
         if len(fragment)>self.max_size:
             return [fragment[:self.max_size].encode('utf-8')] + self.split_fragment(fragment[self.max_size:])
         else:
-            return [fragment.encode('utf-8') + ',']
+            return [fragment.encode('utf-8')]
 
     def show_text_parts(self):
         for p in self.text_parts:
