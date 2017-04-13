@@ -55,10 +55,9 @@ class TTSManger(object):
     def tts(self):
         tts = eval(self.mode_list[self.mode])
         for part in self.text_parts:
-            print part, time.ctime()
             index = self.text_parts.index(part)
-            self.audio_parts += [tts.text2audio(part,str(index))]
-        time.sleep(50)
+            self.audio_parts += [tts.text2audio(part,str(index))]#返回的是文件名，因为直接播放二进制mp3音频流没有找到实现方法
+            print part, time.ctime()
 
     def begin_tts(self):
         self.split_text()
@@ -69,17 +68,17 @@ class TTSManger(object):
         while True:
             if i<len(self.audio_parts):
                 # a=os.system('ffplay -showmode 0 -autoexit %s.mp3'%i + "> /dev/null 2>&1")
-                p = subprocess.Popen('ffplay -showmode 0 -autoexit %s.mp3'%i + "> /dev/null 2>&1",shell=True)
+                p = subprocess.Popen('ffplay -showmode 0 -autoexit %s'%self.audio_parts[i] + "> /dev/null 2>&1",shell=True)
                 p.wait()
                 i += 1
             else:
                 if not t.is_alive():
-                    time.sleep(50)#让最后的一片段语音播放完毕
+                    # time.sleep(5)#让最后的一片段语音播放完毕
                     break
                 time.sleep(0.5)
 
 if __name__ == '__main__':
-    text = '曲曲折折的荷塘上面，弥望一——的是田田的叶子。叶子出水很高，像亭亭的舞女的裙。层层的叶子中间，零星地点缀着些白花，有袅娜地开着的，有羞涩地打着朵儿的；正如一粒粒的明珠，又如碧天里的星星，又如刚出浴的美人。微风过处，送来缕缕清香，仿佛远处高楼上渺茫的歌声似的。这时候叶子与花也有一丝的颤动，像闪电般，霎时传过荷塘的那边去了。叶子本是肩并肩密密地挨着，这便宛然有了一道凝碧的波痕。叶子底下是脉脉的流水，遮住了，不能见一些颜色；而叶子却更见风致了'
+    text = '儿童安全座椅是一种系于汽车座位上,供儿童乘坐且有束缚设备并能在发生车祸时,束缚着儿童以最大限度保障儿童安全的座椅。;'
     tts_manger = TTSManger()
     tts_manger.text = text
     tts_manger.begin_tts()
