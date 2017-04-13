@@ -65,6 +65,7 @@ class TTSManger(object):
         t = threading.Thread(target=self.tts, name='tts_thread')
         t.start()
         i = 0
+        # j = 0
         while True:
             if i<len(self.audio_parts):
                 # a=os.system('ffplay -showmode 0 -autoexit %s.mp3'%i + "> /dev/null 2>&1")
@@ -75,7 +76,9 @@ class TTSManger(object):
                 if not t.is_alive():
                     # time.sleep(5)#让最后的一片段语音播放完毕
                     break
-                time.sleep(0.5)
+                time.sleep(0.05)
+                # j+=1
+                # print j
 
 if __name__ == '__main__':
     text = '儿童安全座椅是一种系于汽车座位上,供儿童乘坐且有束缚设备并能在发生车祸时,束缚着儿童以最大限度保障儿童安全的座椅。;'
